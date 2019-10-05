@@ -3,6 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# dotenv
+.env
+
+# virtualenv
+.venv
+venv/
+ENV/
+.vscode
+kjenv
+
 # C extensions
 *.so
 
@@ -78,15 +88,6 @@ celerybeat-schedule
 
 # SageMath parsed files
 *.sage.py
-
-# dotenv
-.env
-
-# virtualenv
-.venv
-venv/
-ENV/
-.vscode
 
 # Spyder project settings
 .spyderproject
