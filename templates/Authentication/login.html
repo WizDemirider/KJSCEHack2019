@@ -1,21 +1,52 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1>Login</h1>
-        <form method="POST">
-            {% csrf_token %}
-            Username:
-            <input type="text" name="username"><br>
-            Password:
-            <input type="password" name="password"><br>
-            <button type="submit">Submit</button>
-        </form>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Signup{% endblock %}
+
+{% block body %}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+
+            <form class="login100-form validate-form" method="POST">
+                {% csrf_token %}
+
+            	{% if error %}
+                <div class="alert alert-danger w-full" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <span class="login100-form-title p-b-34">
+                    Account Login
+                </span>
+
+                <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                    <input id="first-name" class="input100" type="text" name="username" placeholder="User name">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+                    <input class="input100" type="password" name="password" placeholder="Password">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">
+                        Sign in
+                    </button>
+                </div>
+
+                <div class="w-full text-center p-t-27 p-b-239">
+                    <a href="{% url 'signup' %}" class="txt3">
+                        Sign Up
+                    </a>
+                </div>
+            </form>
+
+            <div class="login100-more" style="background-image: url('{% static 'images/bg-01.jpg' %}');"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    return HttpResponse("Welcome!")
+    return redirect('login')
 
 def signupUser(request):
     if request.method == 'POST':

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+<div>
+    Welcome to the home page!
+</div>
+<div class="w-full text-center p-t-27 p-b-239">
+    <a href="{% url 'login' %}" class="txt3">
+        Login
+    </a>
+    <a href="{% url 'signup' %}" class="txt3">
+        Sign Up
+    </a>
+</div>
+{% endblock %}
