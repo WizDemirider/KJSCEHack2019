@@ -52,7 +52,6 @@ def logoutUser(request):
 def home(request):
     return render(request, 'Main/dashboard.html')
 
-
 @login_required
 def uploadBook(request):
     subjects = models.Subject.objects.all()
@@ -74,7 +73,6 @@ def uploadBook(request):
     elif request.method == "POST":
         error_message = "No file found!"
     return render(request, 'Main/upload_book.html', context={'course_subjects': course_subjects, 'success_message': success_message, 'error_message': error_message})
-
 
 @login_required
 def uploadQuestion(request):
@@ -98,11 +96,15 @@ def uploadQuestion(request):
         error_message = "No file found!"
     return render(request, 'Main/upload_question.html', context={'course_subjects': course_subjects, 'success_message': success_message, 'error_message': error_message})
 
-
 @login_required
 def getSolution(request):
-    return render(request, 'Main/get_solution.html')
+    papers = models.QuestionPaper.objects.all()
+    success_message = None
+    error_message = None
+    paper_solution = None
+    # if request.method == "POST":
 
+    return render(request, 'Main/get_solution.html', context={'papers': papers, 'paper_solution': paper_solution, 'success_message': success_message, 'error_message': error_message})
 
 @login_required
 def correctAnswerSheet(request):
