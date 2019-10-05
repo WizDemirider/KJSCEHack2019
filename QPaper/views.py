@@ -16,14 +16,16 @@ def signupUser(request):
         raw_password = escape(request.POST['password1'])
         raw_password2 = escape(request.POST['password2'])
         try:
-            if raw_password == raw_password2:
+            if raw_password == raw_password2 and len(raw_password) >= 6:
                 user = User.objects.create(username=username, password=raw_password)
                 user.set_password(raw_password)
                 user.save()
                 login(request, user) # logs User in
                 return redirect('home')
-            else:
+            elif len(raw_password) >= 6:
                 return render(request, 'Authentication/signup.html', {'error': "Passwords do not match!"})
+            else:
+                return render(request, 'Authentication/signup.html', {'error': "Password must be 6 characters or more"})
         except Exception as e:
             return render(request, 'Authentication/signup.html', {'error': str(e)})
     return render(request, 'Authentication/signup.html', {'error': None})
