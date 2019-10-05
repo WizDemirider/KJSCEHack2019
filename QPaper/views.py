@@ -15,13 +15,18 @@ def signupUser(request):
         username = escape(request.POST['username'])
         raw_password = escape(request.POST['password1'])
         raw_password2 = escape(request.POST['password2'])
-        if raw_password == raw_password2:
-            user = User.objects.create(username=username, password=raw_password)
-            user.set_password(raw_password)
-            user.save()
-            login(request, user) # logs User in
-            return redirect('home')
-    return render(request, 'Authentication/signup.html')
+        try:
+            if raw_password == raw_password2:
+                user = User.objects.create(username=username, password=raw_password)
+                user.set_password(raw_password)
+                user.save()
+                login(request, user) # logs User in
+                return redirect('home')
+            else:
+                return render(request, 'Authentication/signup.html', {'error': "Passwords do not match!"})
+        except Exception as e:
+            return render(request, 'Authentication/signup.html', {'error': str(e)})
+    return render(request, 'Authentication/signup.html', {'error': None})
 
 def loginUser(request):
     if request.method == 'POST':
@@ -31,7 +36,9 @@ def loginUser(request):
         if user is not None:
             login(request, user) # logs User in
             return redirect('home')
-    return render(request, 'Authentication/login.html')
+        else:
+            return render(request, 'Authentication/signup.html', {'error': "Unable to Log you in!"})
+    return render(request, 'Authentication/login.html', {'error': None})
 
 def logoutUser(request):
     logout(request)
