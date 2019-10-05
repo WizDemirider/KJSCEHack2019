@@ -48,4 +48,4 @@ def logoutUser(request):
 
 @login_required
 def home(request):
-    return HttpResponse("your dashboard")
+    return render(request, 'Main/dashboard.html')
