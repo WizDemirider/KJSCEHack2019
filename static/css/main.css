@@ -185,7 +185,7 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: #bfbfbf;
+  background: #204065;
 }
 
 .wrap-login100 {
@@ -356,7 +356,7 @@ input.input100 {
   width: 100%;
   height: 50px;
   border-radius: 3px;
-  background: #404040;
+  background: #333333;
 
   font-family: Montserrat-Bold;
   font-size: 12px;
@@ -372,7 +372,7 @@ input.input100 {
 }
 
 .login100-form-btn:hover {
-  background: #333333;
+  background: #f96332;
 }
 
 

@@ -16,6 +16,9 @@ kjenv
 # C extensions
 *.so
 
+# My Files
+files/
+
 # Distribution / packaging
 .Python
 env/

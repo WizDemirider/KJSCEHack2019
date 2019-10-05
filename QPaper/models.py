@@ -13,30 +13,27 @@ class Subject(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.course) + self.subject_name
+        return str(self.course) + ' - ' + self.subject_name
 
 class ReferenceBook(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to="files/books/")
-    date = models.DateField(null=True)
     description = models.CharField(max_length=200)
     uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return self.description + str(self.subject)
+        return str(self.subject) + ' ' + self.description
 
 class QuestionPaper(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to="files/question_papers/")
-    date = models.DateField(null=True)
     description = models.TextField()
     uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    total_marks = models.IntegerField()
 
     def __str__(self):
-        return self.description + str(self.subject) + self.date
+        return self.description + ' ' + str(self.subject)
 
 class Question(models.Model):
     paper = models.ForeignKey(QuestionPaper, null=True, on_delete=models.CASCADE)
@@ -49,16 +46,14 @@ class Question(models.Model):
         return self.question_text
 
 class UserAnswerSheet(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    question_paper = models.ForeignKey(QuestionPaper, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to="files/answer_papers/")
-    date = models.DateField(null=True)
     description = models.TextField()
     uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    total_marks = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.description + str(self.subject) + str(self.uploaded_by)
+        return self.description + ' ' + str(self.question_paper) + ' ' + str(self.uploaded_by)
 
 class UserAnswer(models.Model):
     answer_sheet = models.ForeignKey(UserAnswerSheet, on_delete=models.CASCADE)
@@ -68,4 +63,4 @@ class UserAnswer(models.Model):
     scored_marks = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.question) + str(self.answer_sheet)
+        return str(self.question) + ' ' + str(self.answer_sheet)

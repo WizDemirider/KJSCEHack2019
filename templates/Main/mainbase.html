@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+      Now UI Dashboard by Creative Tim
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- CSS Files -->
+    <link href="{% static 'css/mainbootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/now-ui-dashboard.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="wrapper ">
+        <div class="sidebar" data-color="orange">
+            <div class="logo">
+            <a class="simple-text logo-mini">
+                A3S
+            </a>
+            <a class="simple-text logo-normal">
+                ExamStats
+            </a>
+            </div>
+            <div class="sidebar-wrapper" id="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                <a href="{% url 'upload_question' %}">
+                    <p>Upload Question</p>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'upload_book' %}">
+                    <p>Upload Book</p>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'get_solution' %}">
+                    <p>Get Solutions</p>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'correct_answer_sheet' %}">
+                    <p>Answer Sheet Correction</p>
+                </a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        <div class="main-panel" id="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <div class="navbar-toggle">
+                        <button type="button" class="navbar-toggler">
+                        <span class="navbar-toggler-bar bar1"></span>
+                        <span class="navbar-toggler-bar bar2"></span>
+                        <span class="navbar-toggler-bar bar3"></span>
+                        </button>
+                    </div>
+                    <a class="navbar-brand" href="{% url 'home' %}">Dashboard</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                <span class="navbar-toggler-bar navbar-kebab"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navigation">
+
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+
+                            <p>Log Out
+
+                            </p>
+                        </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="panel-header panel-header-md">
+            <canvas id="bigDashboardChart"></canvas>
+            </div>
+            <div class="content">
+
+                    {% if success_message %}
+                        <div class="alert alert-success alert-dismissible fade show">
+                            {{success_message}}
+                        </div>
+                    {% endif %}
+
+                    {% if error_message %}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{error_message}}
+                    </div>
+                {% endif %}
+
+                {% block body %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/main/jquery.min.js' %}"></script>
+    <script src="{% static 'js/main/popper.min.js' %}"></script>
+    <script src="{% static 'js/main/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/main/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static 'js/main/chartjs.min.js' %}"></script>
+    <script src="{% static 'js/main/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/main/now-ui-dashboard.min.js' %}" type="text/javascript"></script>
+    <script>
+      $(document).ready(function() {
+        demo.initDashboardPageCharts();
+      });
+      $('.selectpicker').on('changed.bs.select', function (e, clickedIndex, newValue, oldValue) {
+            var selected = $(e.currentTarget).val();
+            console.log(selected);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+{% extends 'Main/mainbase.html' %}
+
+{% load static %}
+
+{% block title %}Upload Question Paper{% endblock %}
+
+{% block body %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                <h5 class="card-category">Upload Question Paper</h5>
+                <h4 class="card-title">Select Course-Subject</h4>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                    <i class="fas fa-feather"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="card-body">
+                    <select class="custom-select" id="coursepicker" name="subject">
+                        {% for course_subject in course_subjects %}
+                            <option value="{{course_subject.subject.id}}">{{ course_subject.course.course_name }} - {{ course_subject.subject.subject_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                <h5 class="card-category">Upload Question Paper</h5>
+                <h4 class="card-title">Enter Description</h4>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                    <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="card-body">
+                    <textarea name="description" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                <h5 class="card-category">Upload Question Paper</h5>
+                <h4 class="card-title">Upload PDF</h4>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                    <i class="fas fa-scroll"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="card-body">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="file" accept=".pdf" name="file">
+                        <label class="custom-file-label" for="file">Choose question paper pdf file</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="offset-lg-5 col-lg-2">
+            <button type="select" class="btn btn-primary w-100">Submit</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
