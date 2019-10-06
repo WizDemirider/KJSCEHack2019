@@ -5,5 +5,171 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">{{user.username}}'s Profile</h5>
+                    <h4 class="card-title">Your Books</h4>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                        <i class="fas fa-book"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                    {% for book in books %}
+                    <li>{{book}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">{{user.username}}'s Profile</h5>
+                    <h4 class="card-title">Your Answers</h4>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                        <i class="fas fa-scroll"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                        <div id='chart' style='width:100%'>
+                        </div>
+                    <ul>
+                    {% for answer in answers %}
+                    <li>{{answer}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-chart">
+                <div class="card-header">
+                    <h5 class="card-category">{{user.username}}'s Profile</h5>
+                    <h4 class="card-title">Your Question Papers</h4>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                        <i class="fas fa-question"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                    {% for paper in papers %}
+                    <li>{{paper}}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extrajs %}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"> </script>
+<script type='text/javascript'>
+    var options = {
+        chart: {
+            height: 350,
+            type: 'bar',
+        },
+        colors:['#fd7e14'],
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    position: 'top', // top, center, bottom
+                },
+            }
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        series: [{
+            name: 'Percentile',
+            data: {{answer_stats}}
+        }],
+        xaxis: {
+            position: 'top',
+            labels: {
+                offsetY: -18,
+
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            },
+            crosshairs: {
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        colorFrom: '#FD7E14',
+                        colorTo: ' #6610f2;',
+                        stops: [0, 100],
+                        opacityFrom: 0.7,
+                        opacityTo: 1,
+                    }
+                }
+            },
+            tooltip: {
+                enabled: true,
+                offsetY: -35,
+
+            }
+        },
+        fill: {
+            gradient: {
+                shade: 'light',
+                type: "horizontal",
+                shadeIntensity: 0.25,
+                gradientToColors: undefined,
+                inverseColors: true,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [50, 0, 100, 100]
+            },
+        },
+        yaxis: {
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false,
+            },
+            max: 1,
+            labels: {
+                show: false,
+                formatter: function (val) {
+                    return val + "%";
+                }
+            }
+
+        },
+        title: {
+            text: 'Percentile over the past few months',
+            floating: true,
+            offsetY: 320,
+            align: 'center',
+            style: {
+                color: '#444'
+            }
+        },
+    }
+
+    var chart = new ApexCharts(
+        document.querySelector("#chart"),
+        options
+    );
+
+    chart.render();
+
+</script>
 
 {% endblock %}

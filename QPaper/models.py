@@ -55,5 +55,8 @@ class UserAnswer(models.Model):
     scored_marks = models.IntegerField(default=0)
     uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
+    def getTime(self):
+        return str(self.created_at.strftime("%d-%m-%Y %H:%M:%S"))
+
     def __str__(self):
-        return str(self.question) + ' ' + str(self.created_at.strftime("%d-%m-%Y %H:%M:%S"))
+        return str(self.question) + ' ' + self.getTime()

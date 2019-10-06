@@ -68,9 +68,9 @@
                         </div>
                         <div class="col-lg-2">
                             <h4>Marks</h4>
-                            {{answer.scored_marks}}/{{question.marks}}
-                            <!-- <div id='chart' style='width:80%'>
-                            </div> -->
+                            <h5>{{answer.scored_marks}}/{{question.marks}}</h5>
+                            <div id='chart1' style='width:100%'>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,4 +79,35 @@
         {% endif %}
     </div>
 </form>
+{% endblock %}
+
+{% block extrajs %}
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"> </script>
+<script type='text/javascript'>
+    var options1 = {
+        chart: {
+            height: 250,
+            type: 'radialBar',
+        },
+        colors:['#FD7E14'],
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    size: '70%',
+                }
+            },
+        },
+        series: [100*{{answer.scored_marks}}/{{question.marks}}],
+        labels: ['TOTAL SCORE'],
+
+    }
+
+    var chart1 = new ApexCharts(
+        document.querySelector("#chart1"),
+        options1
+    );
+    chart1.render();
+</script>
+
 {% endblock %}

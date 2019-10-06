@@ -52,7 +52,13 @@ def logoutUser(request):
 
 @login_required
 def home(request):
-    return render(request, 'Main/dashboard.html')
+    books = models.ReferenceBook.objects.filter(uploaded_by=request.user)
+    papers = models.QuestionPaper.objects.filter(uploaded_by=request.user)
+    answers = models.UserAnswer.objects.filter(uploaded_by=request.user)
+    answer_stats = []
+    for answer in answers:
+        answer_stats.append(answer.scored_marks/answer.marks)
+    return render(request, 'Main/dashboard.html', context={'user': request.user, 'books': books, 'papers': papers, 'answers': answers, 'answer_stats': answer_stats})
 
 @login_required
 def uploadBook(request):

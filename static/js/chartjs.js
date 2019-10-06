@@ -111,7 +111,7 @@
                     }
                 },
             },
-            series: [30],
+            series: [],
             labels: ['TOTAL SCORE'],
 
         }
