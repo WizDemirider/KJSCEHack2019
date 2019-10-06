@@ -130,9 +130,9 @@ def getSolution(request):
                     if i>1 and i<=3:
                         marks = int(q[-1-i:-1].trim())
                     else:
-                        marks = int(len(q)/20)
+                        marks = int(len(QnA[1])/20)
                 else:
-                    marks = int(len(q)/20)
+                    marks = int(len(QnA[1])/20)
                 question = models.Question.objects.create(
                     paper=paper,
                     question_text=q,
@@ -151,16 +151,17 @@ def correctAnswerSheet(request):
     question = None
     answer = None
     if request.method == "POST" and request.FILES:
+        question = models.Question.objects.get(id=escape(request.POST['question']))
         answer = models.UserAnswer(
-            question=escape(request.POST['question']),
+            question=question,
             marks=question.marks,
             uploaded_by=request.user
         )
-        question = answer.question
         request.FILES['file'].original_filename = request.FILES['file'].name + str(answer.question.id)
         answer.file = request.FILES['file']
-        answer_text = text_detection.get_data(answer.file.name)
-        answer.scored_marks = mark_answers.mark_answer(answer_text, question.correct_answer_text, answer.marks)
+        answer.save()
+        answer.answer_text = text_detection.get_data(answer.file.name)
+        answer.scored_marks = round(mark_answers.mark_answer(answer.answer_text, question.correct_answer_text, answer.marks))
         answer.save()
         success_message = "Saved Successfully! Generating scores!"
     elif request.method == "POST":

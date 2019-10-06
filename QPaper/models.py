@@ -56,4 +56,4 @@ class UserAnswer(models.Model):
     uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return str(self.question) + ' ' + str(self.answer_sheet)
+        return str(self.question) + ' ' + str(self.created_at.strftime("%d-%m-%Y %H:%M:%S"))

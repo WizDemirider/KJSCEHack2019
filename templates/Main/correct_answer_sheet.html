@@ -53,19 +53,25 @@
         {% if question and answer %}
         <div class="col-lg-12">
             <div class="card">
-                <h3>{{question.question_text}}</h3>
-                <div class="row">
-                    <div class="col-lg-5">
-                        <h4>Your Answer</h4>
-                        {{answer.answer_text}}
-                    </div>
-                    <div class="col-lg-5">
-                        <h4>Correct Answer</h4>
-                        {{question.correct_answer_text}}
-                    </div>
-                    <div class="col-lg-2">
-                        <h4>Marks</h4>
-                        {{answer.scored_marks}}/{{question.marks}}
+                <div class="card-header">
+                    <h4 class="card-title pl-4">{{question.question_text}}</h4>
+                </div>
+                <div class="card-body container-fluid pl-5">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h4>Your Answer</h4>
+                            {{answer.answer_text}}
+                        </div>
+                        <div class="col-lg-5">
+                            <h4>Correct Answer</h4>
+                            {{question.correct_answer_text}}
+                        </div>
+                        <div class="col-lg-2">
+                            <h4>Marks</h4>
+                            {{answer.scored_marks}}/{{question.marks}}
+                            <!-- <div id='chart' style='width:80%'>
+                            </div> -->
+                        </div>
                     </div>
                 </div>
             </div>

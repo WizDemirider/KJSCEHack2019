@@ -145,7 +145,7 @@ def run(bookpath, paperpath):
     for question, q_index in question_indices:
 
         PDFsplit(bookpath, 'files/temp/temp.pdf', q_index+20)
-        data = get_data('files/temp/split.pdf')
+        data = get_data('files/temp/temp.pdf')
         question_answers.append((question, text_summarize(data)))
     return question_answers
 
