@@ -4,12 +4,27 @@ import pytesseract
 import os
 from fuzzywuzzy import fuzz
 
-from keyword_extractions import extract_keywords
 from  pdf2image import convert_from_path
-from split_pdf import PDFsplit
-from text_summarization import text_summarize
+from .split_pdf import PDFsplit
+from .text_summarization import text_summarize
+from rake_nltk import Rake
 
-def get_data(filepath, foldername='', remove=True):
+def extract_keywords(text):
+    r = Rake()
+    r.extract_keywords_from_text(text)
+    keywords_dict_scores = r.get_word_degrees()
+    keywords = list(keywords_dict_scores.keys())
+    keywordString = ""
+    for keyword in keywords:
+        keywordString = keywordString + " " + keyword
+    keywordString = keywordString.lstrip()
+    return keywordString
+
+if __name__ == '__main__':
+    text = "What is error detection and correction?"
+    print(extract_keywords(text))
+
+def get_data(filepath):
     pages = convert_from_path(filepath)
     data = ''
     num = 0
@@ -19,32 +34,19 @@ def get_data(filepath, foldername='', remove=True):
         if page_num > 10:
             break
         page_num += 1
-        if foldername:
-            try:
-                os.mkdir(foldername)
-            except:
-                pass
+    
+        name = "out.jpg"
+        page.save(name, 'JPEG')
+        data += '\n\n\n\n' + pytesseract.image_to_string(Image.open('out.jpg'), lang='eng')
 
-            name = f"{foldername}/out{num}.jpg"
-            page.save(name, 'JPEG')
-            data += '\n\nPageBreak\n\n' + pytesseract.image_to_string(Image.open(f'{foldername}/out{num}.jpg'), lang='eng')
-            num += 1
-        
-        else:
-            name = f"out.jpg"
-            page.save(name, 'JPEG')
-            data += '\n\nPageBreak\n\n' + pytesseract.image_to_string(Image.open('out.jpg'), lang='eng')
-
-        if remove:
-            os.remove(name)
+        os.remove(name)
     return data
 
-def get_questions(subject_name):
+def get_questions(paper):
 
     questions = []
 
-    for i in range(1, 5):
-        questions.append(get_data(f'{subject_name}/{i}.pdf'))
+    questions.append(get_data(paper))
 
     questions = [x.split('\n') for x in questions if x != '']
 
@@ -59,12 +61,12 @@ def get_questions(subject_name):
         'why', 
         'write', 
         'classify', 
-        'differentiate', 
-        'who', 
+        'differentiate',
         'short note',
         'compare', 
         'where',
-        'prove',
+        'prove', 
+        'who', 
         '(a)',
         '(b)',
         '(c)',
@@ -99,14 +101,14 @@ def get_questions(subject_name):
 
     return question_w_keywords
 
-def get_question_keywords(foldername):
-    question_w_keywords = get_questions(foldername)
+def get_question_keywords(papers):
+    question_w_keywords = get_questions(papers)
     question_w_keywords = [extract_keywords(x) for x in question_w_keywords]
     return question_w_keywords
 
-def get_indices(reference_text, foldername):
-    qk = get_question_keywords(foldername)
-    q = get_questions(foldername)
+def get_indices(reference_text, papers):
+    qk = get_question_keywords(papers)
+    q = get_questions(papers)
 
     qk = [(x, y) for x, y in zip(q, qk)]
 
@@ -128,21 +130,24 @@ def get_indices(reference_text, foldername):
                     continue
         return (keyword_index)
 
-def run():
-    if not os.path.exists('CN_index.pdf'):
-        PDFsplit('CN.pdf', 0)
-        data = get_data('CN_index.pdf')
-        with open('CN_text.txt', 'w') as file:
+def run(bookpath, paperpath):
+    bookname = bookpath.split('/')[-1]
+    indexpath = 'files/indices/'+bookname
+    textpath = 'files/text/'+bookname
+    if not os.path.exists(indexpath):
+        PDFsplit(bookpath, indexpath, 0)
+        data = get_data(indexpath)
+        with open(textpath, 'w') as file:
             file.write(data)
-    else:
-        question_indices = get_indices('CN_text.txt', 'CN_Papers')
-        question_answers = []
-        for question, q_index in question_indices:
 
-            PDFsplit('CN.pdf', q_index)
-            data = get_data('CN_split.pdf')
-            question_answers.append((question, text_summarize(data)))
-        print(question_answers)
+    question_indices = get_indices(textpath, paperpath)
+    question_answers = []
+    for question, q_index in question_indices:
+
+        PDFsplit(bookpath, 'files/temp/temp.pdf', q_index+20)
+        data = get_data('files/temp/split.pdf')
+        question_answers.append((question, text_summarize(data)))
+    return question_answers
 
 if __name__ == '__main__':
     # data = get_data('CN_Index.pdf')

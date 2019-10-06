@@ -44,23 +44,16 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
-
-class UserAnswerSheet(models.Model):
-    question_paper = models.ForeignKey(QuestionPaper, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(upload_to="files/answer_papers/")
-    description = models.TextField()
-    uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return self.description + ' ' + str(self.question_paper) + ' ' + str(self.uploaded_by)
+        
 
 class UserAnswer(models.Model):
-    answer_sheet = models.ForeignKey(UserAnswerSheet, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.PROTECT)
     answer_text = models.TextField()
     marks = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to="files/answers/")
     scored_marks = models.IntegerField(default=0)
+    uploaded_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return str(self.question) + ' ' + str(self.answer_sheet)

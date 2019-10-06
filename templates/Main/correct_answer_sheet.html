@@ -9,45 +9,28 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
-        <div class="col-lg-4">
+        <div class="offset-lg-1 col-lg-5">
             <div class="card card-chart">
                 <div class="card-header">
                 <h5 class="card-category">Correct Answer Sheet</h5>
-                <h4 class="card-title">Select Question Paper</h4>
+                <h4 class="card-title">Select Question</h4>
                 <div class="dropdown">
                     <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
-                    <i class="fas fa-feather"></i>
+                    <i class="fas fa-question"></i>
                     </button>
                 </div>
                 </div>
                 <div class="card-body">
-                    <select class="custom-select" id="question-paper" name="question_paper">
-                        {% for qp in papers %}
-                            <option value="{{qp.id}}">{{qp.description}}</option>
+                    <select class="custom-select" id="question" name="question">
+                        {% for question in questions %}
+                            <option value="{{question.id}}">{{question.question_text}}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card card-chart">
-                <div class="card-header">
-                <h5 class="card-category">Correct Answer Sheet</h5>
-                <h4 class="card-title">Enter Description</h4>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
-                    <i class="fas fa-pen"></i>
-                    </button>
-                </div>
-                </div>
-                <div class="card-body">
-                    <textarea name="description" class="form-control"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
+        <div class="col-lg-5">
             <div class="card card-chart">
                 <div class="card-header">
                 <h5 class="card-category">Correct Answer Sheet</h5>
@@ -63,13 +46,31 @@
                     <input type="file" class="custom-file-input" id="file" accept=".pdf" name="file">
                     <label class="custom-file-label" for="file">Choose answer sheet pdf file</label>
                     </div>
+                    <button type="select" class="btn btn-primary w-100">Submit</button>
                 </div>
             </div>
         </div>
-
-        <div class="offset-lg-5 col-lg-2">
-            <button type="select" class="btn btn-primary w-100">Submit</button>
+        {% if question and answer %}
+        <div class="col-lg-12">
+            <div class="card">
+                <h3>{{question.question_text}}</h3>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <h4>Your Answer</h4>
+                        {{answer.answer_text}}
+                    </div>
+                    <div class="col-lg-5">
+                        <h4>Correct Answer</h4>
+                        {{question.correct_answer_text}}
+                    </div>
+                    <div class="col-lg-2">
+                        <h4>Marks</h4>
+                        {{answer.scored_marks}}/{{question.marks}}
+                    </div>
+                </div>
+            </div>
         </div>
+        {% endif %}
     </div>
 </form>
 {% endblock %}

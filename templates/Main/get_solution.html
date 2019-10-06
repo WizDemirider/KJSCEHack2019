@@ -9,7 +9,7 @@
 <form method="POST">
     {% csrf_token %}
     <div class="row">
-        <div class="col-lg-4">
+        <div class="offset-lg-1 col-lg-5">
             <div class="card card-chart">
                 <div class="card-header">
                 <h5 class="card-category">Get Paper Solution</h5>
@@ -26,17 +26,44 @@
                             <option value="{{qp.id}}">{{qp.description}}</option>
                         {% endfor %}
                     </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card card-chart">
+                <div class="card-header">
+                <h5 class="card-category">Get Paper Solution</h5>
+                <h4 class="card-title">Select Reference Book</h4>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret">
+                    <i class="fas fa-book"></i>
+                    </button>
+                </div>
+                </div>
+                <div class="card-body">
+                    <select class="custom-select" id="book" name="book">
+                        {% for book in books %}
+                            <option value="{{book.id}}">{{book.subject}} {{book.description}}</option>
+                        {% endfor %}
+                    </select>
                     <button type="select" class="btn btn-primary w-100">Submit</button>
                 </div>
             </div>
         </div>
         {% if paper_solution %}
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Solution</h4>
                     <div class="card-body">
-                        {{paper_solution}}
+                        {% for q, a in paper_solution %}
+                        <div class="pb-2">
+                            <h4><b>{{q}}</b></h4>
+                            <hr>
+                            {{a}}
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

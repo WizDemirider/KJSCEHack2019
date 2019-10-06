@@ -21,7 +21,7 @@ def text_summarize(text):
     clean_sentences = [remove_stopwords(r.split()) for r in clean_sentences]
 
     word_embeddings = {}
-    f = open('glove.6B.100d.txt', encoding='utf-8')
+    f = open('files/models/glove.txt', encoding='utf-8')
     for line in f:
         values = line.split()
         word = values[0]
