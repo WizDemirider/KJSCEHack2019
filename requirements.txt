@@ -1,5 +1,6 @@
+-i https://pypi.org/simple/
 decorator==4.4.0
-Django==2.2.6
+django==2.2.22
 fuzzywuzzy==0.17.0
 joblib==0.14.0
 networkx==2.3
@@ -7,11 +8,11 @@ nltk==3.4.5
 numpy==1.17.2
 pandas==0.25.1
 pdf2image==1.9.0
-Pillow==6.2.0
-PyPDF2==1.26.0
+pillow==6.2.0
+pypdf2==1.26.0
 pytesseract==0.3.0
 python-dateutil==2.8.0
-python-Levenshtein==0.12.0
+python-levenshtein==0.12.0
 pytz==2019.2
 rake-nltk==1.0.4
 scikit-learn==0.21.3
