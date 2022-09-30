@@ -8,7 +8,7 @@ verify_ssl = true
 [packages]
 decorator = "==4.4.0"
 fuzzywuzzy = "==0.17.0"
-joblib = "==0.14.0"
+joblib = "==1.2.0"
 networkx = "==2.3"
 nltk = "==3.4.5"
 numpy = "==1.17.2"
